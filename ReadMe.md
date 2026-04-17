@@ -1,250 +1,148 @@
-## 📊 **Transaction Monitoring \& Risk Scoring Framework**
+## 📊 Transaction Monitoring & Risk Scoring Framework
 
+---
 
-
-### **📌 Overview**
-
-
+## 📌 Overview
 
 This project implements a rule-based transaction monitoring and behavioural risk scoring framework using MySQL 8.
 
+It simulates core components of an AML (Anti-Money Laundering) style monitoring system, including:
 
+- Behavioural profiling
+- Peer-based anomaly detection
+- Time-based change analysis
 
-<<<<<<< HEAD
-It simulates core components of an AML (Anti-Money Laundering) system, including:
-=======
-It is designed to simulate core components of an AML-style monitoring system, including behavioural profiling, peer-based anomaly detection, and time-based change analysis, culminating in an investigation prioritization layer.
->>>>>>> 9add5ad805451e0e4cd1ecc9cb9ee596e7a2cd2e
+These signals feed into an investigation prioritization layer, producing explainable, ranked risk outputs for operational use.
 
+---
 
-
-* Behavioural profiling
-* Peer-based anomaly detection
-* Time-based change analysis
-
-
-
-These feed into an investigation prioritization layer, producing explainable, ranked risk outputs for operational use.
-
-
-
-
-
-#### **🏗️ Architecture**
-
-
+## 🏗️ Architecture
 
 Raw Transaction Data
-
-&#x20;       ↓
-
-Feature Engineering (sender\_activity\_profile)
-
-&#x20;       ↓
-
-Peer-Base Risk Scoring (percentile-ranking)
-
-&#x20;       ↓
-
-Behavioural Change Detection (30-day vs 60-day)
-
-&#x20;       ↓
-
-Composite Risk Engine (sender\_final\_risk)
-
-&#x20;       ↓
-
-Alerting \& Investigation Queue
+↓
+Feature Engineering (sender_activity_profile)
+↓
+Peer-Based Risk Scoring (percentile ranking)
+↓
+Behavioural Change Detection (30-day vs 60-day baseline)
+↓
+Composite Risk Engine (sender_final_risk)
+↓
+Alerting & Investigation Queue
 
 
+---
 
+## ⚙️ Data Processing Framework
 
-
-#### **⚙️ Data Processing Framework**
-
-
-
-
-
-##### **1. Behavioural Feature Layer**
-
-### 
+### 1. Behavioural Feature Layer
 
 Aggregates transaction data into account-level behavioural metrics:
 
+- Transaction frequency  
+- Monetary throughput  
+- Burst activity  
+- Activity volatility  
 
+---
 
-* Transaction frequency
-* Monetary throughput
-* Burst activity
-* Activity volatility
+### 2. Peer-Based Anomaly Scoring
 
+Accounts are evaluated relative to peers using percentile ranking:
 
+- Normalized transaction intensity  
+- Value distribution insights  
+- Volatility comparisons  
 
-##### **2. Peer-Based Anomaly Scoring**
+---
 
+### 3. Behavioural Shift Detection
 
+Detects behavioural changes using time-window comparisons:
 
-Accounts are evaluated relative to peers using percentile ranking, producing:
+- Last 30 days vs previous 30 days  
+- Transaction growth and acceleration  
+- Structural behaviour shifts  
 
+---
 
+### 4. Composite Risk Engine
 
-* Normalized transaction intensity
-* Value distribution insights
-* Volatility comparisons
+Final risk score combines structural and temporal signals:
 
+**Final Risk Score =**
+- 60% Peer Risk  
+- 40% Behavioural Shift Risk  
 
+Outputs are normalized to a 0–100 scale.
 
-##### **3. Behavioural Shift Detection**
+---
 
+## 🚨 Alerting & Triage
 
+### Risk Classification
 
-Detects changes using time-window comparisons:
+- **High Risk** → Structural anomaly + behavioural shift  
+- **Medium Risk** → Persistent anomaly only  
+- **Watchlist** → Behavioural deviation without sustained risk  
 
+---
 
+### Investigation Queue
 
-* Last 30 days vs previous 30 days
-* Transaction growth and acceleration
-* Structural behaviour shifts
-* 
+- Ranked by risk score + behavioural volatility  
+- Supports analyst prioritization workflows  
 
-##### **4. Composite Risk Engine**
+---
 
+## 🧠 Design Principles
 
+- Modular SQL pipeline (feature → scoring → decision layers)  
+- Population-based (relative) risk modelling  
+- Behavioural change sensitivity  
+- Explainability-first design  
+- Extensible and auditable architecture  
 
-Final score combines structural and temporal signals:
+---
 
+## 🛠️ Technology Stack
 
+- MySQL 8  
+- Window Functions (PERCENT_RANK)  
+- Common Table Expressions (CTEs)  
+- View-based pipeline design  
 
-Final Risk Score =
+---
 
-60% Peer Risk + 40% Behavioural Shift Risk
+## 📊 Outputs
 
+- Entity-level risk score (0–100)  
+- Risk classification (High / Medium / Watchlist)  
+- Behavioural shift indicators  
+- Ranked investigation priority  
 
+---
 
-* Balances persistent vs emerging risk
-* Normalised to 0–100 scale
-
-
-
-
-
-##### **🚨 Alerting \& Triage**
-
-
-
-
-
-###### **Risk Classification**
-
-
-
-* **High Risk →** Structural anomaly + behavioural shift
-* **Medium Risk →** Persistent anomaly only
-* **Watchlist →** Behavioural deviation without sustained risk
-
-
-
-###### **Investigation Queue**
-
-
-
-* Ranked by risk score + behavioural volatility
-* Supports analyst prioritization workflows
-
-
-
-
-
-##### **🧠 Design Principles**
-
-
-
-
-
-* Modular SQL pipeline (feature → scoring → decision layers)
-* Population-based (relative) risk modelling
-* Behavioural change sensitivity
-* Explainability-first approach
-* Extensible and auditable architecture
-
-
-
-###### 
-
-##### **🛠️ Technology Stack**
-
-
-
-
-
-* MySQL 8
-* Window Functions (PERCENT\_RANK)
-* Common Table Expressions (CTEs)
-* View-based pipeline design
-
-
-
-
-
-##### **📊 Outputs**
-
-
-
-
-
-* Entity-level risk score (0–100)
-* Risk classification (High / Medium / Watchlist)
-* Behavioural shift indicators
-* Ranked investigation priority
-
-
-
-
-
-##### **📁 Repository Structure**
-
-
-
-
+## 📁 Repository Structure
 
 sql/
-
-&#x20; 00\_exploration/
-
-&#x20; 01\_schema/
-
-&#x20; 02\_feature\_engineering/
-
-&#x20; 03\_risk\_model/
-
-&#x20; 04\_behavior\_analysis/
-
-&#x20; 04\_decision\_layer/
+00_exploration/
+01_schema/
+02_feature_engineering/
+03_risk_model/
+04_behavior_analysis/
+05_decision_layer/
 
 
+---
 
+## 📌 Summary
 
-
-##### **📌 Summary**
-
-
-
-
-
-This project demonstrates an **end-to-end SQL-based behavioural monitoring system** that converts raw transactional data into **explainable, prioritized risk signals**.
-
-
+This project demonstrates an end-to-end SQL-based behavioural monitoring system that converts raw transactional data into explainable, prioritized risk signals.
 
 It highlights:
 
-
-
-* Modular design
-* Relative risk modelling
-* Behavioural change detection
-
-
-
-all within a lightweight, production-inspired analytical framework.
-
+- Modular design  
+- Relative risk modelling  
+- Behavioural change detection  
+- Production-inspired analytical architecture  
