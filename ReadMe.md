@@ -10,7 +10,7 @@ This project implements a rule-based transaction monitoring and behavioural risk
 
 
 
-It is designed to simulate core components of an AML-style monitoring system, including behavioural profiling, peer-based anomaly detection, and time-based change analysis, culminating in an investigation prioritisation layer.
+It is designed to simulate core components of an AML-style monitoring system, including behavioural profiling, peer-based anomaly detection, and time-based change analysis, culminating in an investigation prioritization layer.
 
 
 
